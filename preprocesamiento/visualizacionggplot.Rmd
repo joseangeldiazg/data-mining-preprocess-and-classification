@@ -1,0 +1,123 @@
+---
+title: "Visualizacion y Manipulación"
+author: "joseangeldiazg"
+date: "10/1/2018"
+output: html_document
+---
+
+## Prácticas de prepocesamiento y clasificación
+
+
+### Visualización con ggplot
+
+```{r}
+library(ggplot2)
+library(tidyverse)
+```
+
+Vamos a utilizar el dataset **mpg**. Es en un conjunto de datos con información relativa a sus datos técnicos. 
+
+```{r}
+mpg
+```
+
+Vamos a representar algunos datos gráficamente como puntos.
+
+```{r}
+ggplot(data=mpg)+
+  geom_point(mapping=aes(x=displ,y=hwy))
+```
+
+Vemos una relación en la que a más cilindrada, la eficiencia energética disminuye. Hay algunos puntos que se escapan de la tendencia, por lo que sobre este gráfico vamos a obtener el tipo de coches. Puede ser que haya solapamiento, por lo que necesitamos añadir el parámetro position="jitter", lo que añade una variacion aleatoria para que no se solapen. 
+
+```{r}
+ggplot(data=mpg)+
+  geom_point(mapping=aes(x=displ,y=hwy, color=class), position = "jitter")
+```
+
+También podemos hacer una discriminación por tamaño. 
+
+```{r}
+ggplot(data=mpg)+
+  geom_point(mapping=aes(x=displ,y=hwy, color=class, size=year))
+```
+
+Por último, podemos hacer una discriminación por forma o por transparencia.
+
+```{r}
+ggplot(data=mpg)+
+  geom_point(mapping=aes(x=displ,y=hwy, alpha=class))
+ggplot(data=mpg)+
+  geom_point(mapping=aes(x=displ,y=hwy, shape=class))
+```
+
+Otro gráfico interesante y fácil de realizar es el boxplot.
+
+```{r}
+ggplot(data=mpg, mapping = aes(x=class, y=hwy))+
+  geom_boxplot()
+```
+
+También podemos hacer de una manera sencilla una agrupación de puntos en gráficos diferentes. Para ello:
+
+```{r}
+ggplot(data=mpg)+
+  geom_point(mapping=aes(x=displ,y=hwy, color=class))+
+  facet_wrap(~ class, nrow=2)
+```
+
+También podemos obtener los gráficos agrupados por varias variables:
+
+```{r}
+ggplot(data=mpg)+
+  geom_point(mapping=aes(x=displ,y=hwy, color=class))+
+  facet_grid(drv~cyl)
+```
+
+
+```{r}
+ggplot(data=mpg)+
+  geom_smooth(mapping=aes(x=displ,y=hwy))
+
+ggplot(data=mpg)+
+  geom_point(mapping =aes(x=displ,y=hwy, color=class)) +
+  geom_smooth(mapping=aes(x=displ,y=hwy))
+
+
+ggplot(data=mpg, mapping =aes(x=displ,y=hwy))+
+  geom_point(mapping =aes(color=class)) +
+  geom_smooth(se=FALSE)
+
+
+ggplot(data=mpg, mapping =aes(x=displ,y=hwy))+
+  geom_point(mapping =aes(color=class)) +
+  geom_smooth(data=filter(mpg, class=="subcompact"), se=FALSE)
+```
+
+
+
+Vamos a trabajar ahora con el dataset diamond.
+
+```{r}
+head(diamonds, 3)
+```
+
+Vamos a hacer un conteo de los distintos cortes para diamante.
+
+
+```{r}
+ggplot(data=diamonds)+
+  geom_bar(mapping=aes(x=cut))
+```
+
+En lugar de la suma puede que necesitemos saber las proporciones. 
+
+```{r}
+ggplot(data=diamonds)+
+  geom_bar(mapping=aes(x=cut, y=..prop.., group=1))
+```
+
+
+
+
+
