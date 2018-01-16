@@ -1,0 +1,130 @@
+---
+title: "Lectura de Datos"
+author: "joseangeldiazg"
+date: "16/1/2018"
+output: html_document
+---
+
+
+### Análisis exploratorio
+
+```{r}
+#Funciones a usar
+source("lecturaDatos.R")
+datos<- lecturaDatos("./data","datos.csv")
+```
+
+```{r}
+instancias <- nrow(datos)
+instancias
+variables <- ncol(datos)
+variables
+```
+
+Vamos a ver la estructura de los datos para ello, podemos usar funciones como:
+
+```{r}
+#Vemos las priemeras 5 
+head(datos, 5)
+
+#Vemos las 5 ultimas
+tail(datos,5)
+
+#Nombres de las variables
+names(datos)
+```
+
+Para ver un reumen de las variables y sus datos estadísticos:
+
+```{r}
+summary(datos)
+```
+
+Una función similar es describe del paquete Hmisc:
+
+```{r}
+library("Hmisc")
+describe(datos[1:3])
+```
+
+
+Con esta primera toma de contacto podemos ver el tipo de datos, si tenemos valores perdidos, sus distribuciones...
+
+### Valores perdidos
+
+El primer paso sería ver si estos valores perdidos son aleatorios o si siguen alguna distribución. De igual modo, para manejar esto podríamos utilizar estas aproximaciones:
+
+  - Utilizar técnicas robustas de minería de datos que no sean sensibles a MV. 
+  - Eliminar las instancias donde aparezcan datos perdidos. (función na.omit=T)
+  - Asignar un valor fijo a todos los MV. 
+  - Asignar un valor de referencia, como la media, la mediana..
+  - Técnicas más sofisticadas como usar un predictor o regresor sobre la variable con datos perdidos en     función de las demás. 
+
+
+
+El primer paso será obtener el porcentaje de variables con datos perdidos en cada instancia:
+
+
+```{r}
+res<-apply(datos, 1, function(x) sum(is.na(x)))/ncol(datos)*100
+res
+```
+
+
+Vamos a marcar como instancias "malas" aquellas que tienen mas de un 5% de valores perdidos. 
+
+```{r}
+mal<-(res>5)
+filtrados<- datos[!mal,]
+filtrados
+```
+
+Ahora escribimos los datos, para evitar tener que volver a re-hacer todo en posteriores etapas del proceso. 
+
+```{r}
+escrituraDatos("./data", "datosFiltrados.csv", filtrados)
+```
+
+Para obtener mejores resultados, podemos utilizar versión paralela de apply:
+
+
+```{r}
+library(parallel)
+cores <- detectCores()
+cluster <- makeCluster(cores-2)
+system.time(parRapply(cluster, datos, function(x) sum(is.na(x)))/ncol(datos)*100)
+stopCluster(cluster)
+```
+
+También podemos obtener el patron de valores perdidos, que nos dirá si estos son aleatorios o no.
+
+```{r}
+library(mice)
+datos <- airquality
+patron<- md.pattern(x=datos)
+patron
+```
+
+
+Vemos que hay 2 instancias donde falla el valor de solar.R y ozone. 5 en las que no aparece el valor de  Solar.R, 35 instancias en las que no aparece el valor ozone y 111 completas. 
+
+Esto podemos verlo tambien gráficamente para ello:
+
+```{r}
+require(VIM)
+plot <- aggr(datos, col=c('blue', 'red'), numbers=TRUE,
+             sortVars=T, labels=names(data), cex.axix=.5,
+             gap=1, ylab=c("Graficos de datos perdidos","Patron"))
+```
+
+El anterior gráfico nos muestra lo mismo que la funcion md.pattern pero de manera gráfica. 
+
+También podemos ver la distribución de una variable respecto de la otra.
+
+```{r}
+marginplot(datos[,1:2])
+```
+
+Podemos considerar la distribución de los valores perdidos como aleatoria. 
+
+
