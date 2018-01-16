@@ -1,0 +1,158 @@
+---
+title: "Tibble"
+author: "joseangeldiazg"
+date: "16/1/2018"
+output: html_document
+---
+
+## Manejo de datos con Tibble
+
+
+En esta sesion veremos el tipo de datos **Tibble**. Este tipo de datos es similar a un dataframe pero que facilita mucho los filtrados. 
+
+```{r}
+library(dplyr)
+library(nycflights13)
+```
+
+```{r}
+flights
+unoEnero<- filter(flights, month=1, day=1)
+```
+
+
+Podemos hacer filtrados más complejos como por ejemplo:
+
+
+```{r}
+#Llegadas con más de 120 minutos
+retrasoLlegadas<-filter(flights, arr_delay > 120)
+retrasoLlegadas
+
+#Llegadas con más de 120 y el retraso en la salida también mayor de 120
+retrasoLlegadasYSalidas<-filter(flights, arr_delay > 120 & dep_delay > 120)
+retrasoLlegadasYSalidas
+```
+
+
+También podemos usar rangos, para ello: 
+
+```{r}
+eneroFebreroMarzo <- filter(flights, month %in% c(1,2,3))
+eneroFebreroMarzo
+```
+
+
+Si por ejemplo queremos ordenar las instancias en función de origen y destino:
+
+
+```{r}
+origenDestino <-arrange(flights, origin, dest)
+origenDestino
+```
+
+
+Si queremos seleccionar algunas columnas, se pueden seleccionar de manera sencilla de la sigueiente manera:
+
+
+```{r}
+#Selección básica
+seleccionadas <- select(flights, year, month, day)
+
+#Selección por rango
+seleccionadas <- select(flights, year:dest)
+
+#Selección por rango inverso
+seleccionadas<- select(flights, -(year:dest))
+
+#Las variables que empiezan por a
+seleccionadas<- select(flights, starts_with("a"))
+
+#Las variables que acaban por a
+seleccionadas<- select(flights, ends_with("a"))
+
+#Las variables que contienen -
+seleccionadas<- select(flights, contains("a"))
+```
+
+
+El tipo de datos Tibble también facilita el renombrado de variables.
+
+```{r}
+conCambio <- rename(flights, tailnumber=tailnum) 
+```
+
+
+Introducción de nuevas variables. Útil para el proceso de generación de características. 
+
+
+```{r}
+versionNueva <- mutate(flights, gain=arr_delay-dep_delay)
+
+#Si solo queremos tener las nuevas variables en lugar de mutate transmutate
+versionNueva <- mutate(flights, gain=arr_delay-dep_delay)
+```
+
+
+El tipo de datos Tibble también permite el agrupamiento de isntancias, similar al group by de SQL. 
+
+```{r}
+porDia<-group_by(flights, year, month, day)
+resume<-summarise(porDia, delay=mean(dep_delay,na.rm = TRUE))
+resume
+```
+
+Ahora vamos a encadenar ordenes:
+
+- Paso 1: agrupamiento por destino
+
+```{r}
+porDestino <- group_by(flights, dest)
+```
+
+- Paso 2: determinar el retraso por destino
+
+```{r}
+retraso <- summarise(porDestino, count=n(), dist=mean(distance,na.rm = TRUE), delay=mean(dep_delay,na.rm = TRUE))
+```
+
+
+- Paso 3: Filtrado
+
+```{r}
+filtrado<-filter(retraso, count > 20, dest != "HNL")
+filtrado
+```
+
+Por último dibujamos el gráfico.
+
+
+```{r}
+library(ggplot2)
+ggplot(data=filtrado, mapping = aes(x=dist, y=delay)) + 
+  geom_point(aes(size=count), alpha=1/3) +
+  geom_smooth(se=F)
+```
+
+Podemos hacerlo todo en una misma orden de la siguiente manera:
+
+```{r}
+resultado<- flights %>%
+            group_by(dest) %>%
+            summarise(count=n(),
+                      dist=mean(distance,na.rm = TRUE),
+                      delay=mean(dep_delay,na.rm = TRUE)) %>%
+            filter(count > 20, dest != "HNL")
+
+ggplot(data=resultado, mapping = aes(x=dist, y=delay)) + 
+  geom_point(aes(size=count), alpha=1/3) +
+  geom_smooth(se=F)
+```
+
+
+Podemos convertir los datos a Tibble, usando como siempre la funcion as:
+
+```{r}
+datos<-as_tibble(iris)
+datos
+```
