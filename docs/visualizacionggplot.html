@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+<meta name="author" content="joseangeldiazg" />
+
+
+<title>Visualizacion y Manipulación</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 51px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+
+.section h2 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h3 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h4 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h5 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h6 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+<!-- code folding -->
+
+
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Pre-procesado de datos con R</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="visualizacionggplot.html">Visualización</a>
+</li>
+<li>
+  <a href="tibble.html">Datos Tibble</a>
+</li>
+<li>
+  <a href="preprocesado.html">Valores perdidos</a>
+</li>
+<li>
+  <a href="transformacion.html">Transformación</a>
+</li>
+<li>
+  <a href="seleccionvariables.html">Selección Variables</a>
+</li>
+<li>
+  <a href="ruido.html">Ruido</a>
+</li>
+<li>
+  <a href="anomalias.html">Anomalias</a>
+</li>
+<li>
+  <a href="caret.html">Caret</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Visualizacion y Manipulación</h1>
+<h4 class="author"><em>joseangeldiazg</em></h4>
+<h4 class="date"><em>10/1/2018</em></h4>
+
+</div>
+
+
+<div id="practicas-de-prepocesamiento-y-clasificacion" class="section level2">
+<h2>Prácticas de prepocesamiento y clasificación</h2>
+<div id="visualizacion-con-ggplot" class="section level3">
+<h3>Visualización con ggplot</h3>
+<pre class="r"><code>library(ggplot2)
+library(tidyverse)</code></pre>
+<p>Vamos a utilizar el dataset <strong>mpg</strong>. Es en un conjunto de datos con información relativa a sus datos técnicos.</p>
+<pre class="r"><code>mpg</code></pre>
+<pre><code>## # A tibble: 234 x 11
+##    manufac… model   displ  year   cyl trans  drv     cty   hwy fl    class
+##    &lt;chr&gt;    &lt;chr&gt;   &lt;dbl&gt; &lt;int&gt; &lt;int&gt; &lt;chr&gt;  &lt;chr&gt; &lt;int&gt; &lt;int&gt; &lt;chr&gt; &lt;chr&gt;
+##  1 audi     a4       1.80  1999     4 auto(… f        18    29 p     comp…
+##  2 audi     a4       1.80  1999     4 manua… f        21    29 p     comp…
+##  3 audi     a4       2.00  2008     4 manua… f        20    31 p     comp…
+##  4 audi     a4       2.00  2008     4 auto(… f        21    30 p     comp…
+##  5 audi     a4       2.80  1999     6 auto(… f        16    26 p     comp…
+##  6 audi     a4       2.80  1999     6 manua… f        18    26 p     comp…
+##  7 audi     a4       3.10  2008     6 auto(… f        18    27 p     comp…
+##  8 audi     a4 qua…  1.80  1999     4 manua… 4        18    26 p     comp…
+##  9 audi     a4 qua…  1.80  1999     4 auto(… 4        16    25 p     comp…
+## 10 audi     a4 qua…  2.00  2008     4 manua… 4        20    28 p     comp…
+## # ... with 224 more rows</code></pre>
+<p>Vamos a representar algunos datos gráficamente como puntos.</p>
+<pre class="r"><code>ggplot(data=mpg)+
+  geom_point(mapping=aes(x=displ,y=hwy))</code></pre>
+<p><img src="visualizacionggplot_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+<p>Vemos una relación en la que a más cilindrada, la eficiencia energética disminuye. Hay algunos puntos que se escapan de la tendencia, por lo que sobre este gráfico vamos a obtener el tipo de coches. Puede ser que haya solapamiento, por lo que necesitamos añadir el parámetro position=“jitter”, lo que añade una variacion aleatoria para que no se solapen.</p>
+<pre class="r"><code>ggplot(data=mpg)+
+  geom_point(mapping=aes(x=displ,y=hwy, color=class), position = &quot;jitter&quot;)</code></pre>
+<p><img src="visualizacionggplot_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+<p>También podemos hacer una discriminación por tamaño.</p>
+<pre class="r"><code>ggplot(data=mpg)+
+  geom_point(mapping=aes(x=displ,y=hwy, color=class, size=year))</code></pre>
+<p><img src="visualizacionggplot_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+<p>Por último, podemos hacer una discriminación por forma o por transparencia.</p>
+<pre class="r"><code>ggplot(data=mpg)+
+  geom_point(mapping=aes(x=displ,y=hwy, alpha=class))</code></pre>
+<p><img src="visualizacionggplot_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+<pre class="r"><code>ggplot(data=mpg)+
+  geom_point(mapping=aes(x=displ,y=hwy, shape=class))</code></pre>
+<pre><code>## Warning: The shape palette can deal with a maximum of 6 discrete values
+## because more than 6 becomes difficult to discriminate; you have 7.
+## Consider specifying shapes manually if you must have them.</code></pre>
+<pre><code>## Warning: Removed 62 rows containing missing values (geom_point).</code></pre>
+<p><img src="visualizacionggplot_files/figure-html/unnamed-chunk-6-2.png" width="672" /></p>
+<p>Otro gráfico interesante y fácil de realizar es el boxplot.</p>
+<pre class="r"><code>ggplot(data=mpg, mapping = aes(x=class, y=hwy))+
+  geom_boxplot()</code></pre>
+<p><img src="visualizacionggplot_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
+<p>También podemos hacer de una manera sencilla una agrupación de puntos en gráficos diferentes. Para ello:</p>
+<pre class="r"><code>ggplot(data=mpg)+
+  geom_point(mapping=aes(x=displ,y=hwy, color=class))+
+  facet_wrap(~ class, nrow=2)</code></pre>
+<p><img src="visualizacionggplot_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
+<p>También podemos obtener los gráficos agrupados por varias variables:</p>
+<pre class="r"><code>ggplot(data=mpg)+
+  geom_point(mapping=aes(x=displ,y=hwy, color=class))+
+  facet_grid(drv~cyl)</code></pre>
+<p><img src="visualizacionggplot_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
+<pre class="r"><code>ggplot(data=mpg)+
+  geom_smooth(mapping=aes(x=displ,y=hwy))</code></pre>
+<pre><code>## `geom_smooth()` using method = &#39;loess&#39;</code></pre>
+<p><img src="visualizacionggplot_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
+<pre class="r"><code>ggplot(data=mpg)+
+  geom_point(mapping =aes(x=displ,y=hwy, color=class)) +
+  geom_smooth(mapping=aes(x=displ,y=hwy))</code></pre>
+<pre><code>## `geom_smooth()` using method = &#39;loess&#39;</code></pre>
+<p><img src="visualizacionggplot_files/figure-html/unnamed-chunk-10-2.png" width="672" /></p>
+<pre class="r"><code>ggplot(data=mpg, mapping =aes(x=displ,y=hwy))+
+  geom_point(mapping =aes(color=class)) +
+  geom_smooth(se=FALSE)</code></pre>
+<pre><code>## `geom_smooth()` using method = &#39;loess&#39;</code></pre>
+<p><img src="visualizacionggplot_files/figure-html/unnamed-chunk-10-3.png" width="672" /></p>
+<pre class="r"><code>ggplot(data=mpg, mapping =aes(x=displ,y=hwy))+
+  geom_point(mapping =aes(color=class)) +
+  geom_smooth(data=filter(mpg, class==&quot;subcompact&quot;), se=FALSE)</code></pre>
+<pre><code>## `geom_smooth()` using method = &#39;loess&#39;</code></pre>
+<p><img src="visualizacionggplot_files/figure-html/unnamed-chunk-10-4.png" width="672" /></p>
+<p>Vamos a trabajar ahora con el dataset diamond.</p>
+<pre class="r"><code>head(diamonds, 3)</code></pre>
+<pre><code>## # A tibble: 3 x 10
+##   carat cut     color clarity depth table price     x     y     z
+##   &lt;dbl&gt; &lt;ord&gt;   &lt;ord&gt; &lt;ord&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+## 1 0.230 Ideal   E     SI2      61.5  55.0   326  3.95  3.98  2.43
+## 2 0.210 Premium E     SI1      59.8  61.0   326  3.89  3.84  2.31
+## 3 0.230 Good    E     VS1      56.9  65.0   327  4.05  4.07  2.31</code></pre>
+<p>Vamos a hacer un conteo de los distintos cortes para diamante.</p>
+<pre class="r"><code>ggplot(data=diamonds)+
+  geom_bar(mapping=aes(x=cut))</code></pre>
+<p><img src="visualizacionggplot_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
+<p>En lugar de la suma puede que necesitemos saber las proporciones.</p>
+<pre class="r"><code>ggplot(data=diamonds)+
+  geom_bar(mapping=aes(x=cut, y=..prop.., group=1))</code></pre>
+<p><img src="visualizacionggplot_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
+</div>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

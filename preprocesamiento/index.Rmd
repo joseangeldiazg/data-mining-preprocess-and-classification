@@ -1,0 +1,25 @@
+---
+title: "Pre-Procesado de datos con R"
+author: "joseangeldiazg"
+date: "17/1/2018"
+output: html_document
+---
+
+
+## Información sobre el sitio:
+
+Esta web ha sido creada para almacenar el trabajo y los apuntes de clase de la asignatura Minería de Datos: Pre-procesamiento y clasificación. 
+
+## Contenido.
+
+En la web hay explicaciones y scripts de:
+
+- Filtros de ruido.
+- Selección de variables.
+- Valores perdidos.
+- Transformación y escalado. 
+- Tratamiento de datos del tipo Tibble. 
+
+
+Los scripts originales son del profesor Manuel Holmedo y pueden encontrarse en este repositorio: https://github.com/joseangeldiazg/data-mining-preprocess-and-classification/tree/master/preprocesamiento/scriptsR
+

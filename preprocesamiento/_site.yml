@@ -1,0 +1,25 @@
+name: "Apuntes pre-procesado de datos"
+output_dir: "../docs"
+exclude: ["data","scriptsR","preprocesamiento.Rproj","lecturaDatos.R"]
+navbar:
+  title: "Pre-procesado de datos con R"
+  left:
+    - text: "Home"
+      href: index.html
+    - text: "Visualización"
+      href: visualizacionggplot.html
+    - text: "Datos Tibble"
+      href: tibble.html
+    - text: "Valores perdidos"
+      href: preprocesado.html
+    - text: "Transformación"
+      href: transformacion.html
+    - text: "Selección Variables"
+      href: seleccionvariables.html
+    - text: "Ruido"
+      href: ruido.html
+    - text: "Anomalias"
+      href: anomalias.html
+    - text: "Caret"
+      href: caret.html
+      

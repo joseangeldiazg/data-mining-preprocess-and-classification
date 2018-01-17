@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+<meta name="author" content="joseangeldiazg" />
+
+
+<title>Anomalías</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 51px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+
+.section h2 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h3 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h4 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h5 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h6 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+<!-- code folding -->
+
+
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Pre-procesado de datos con R</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="visualizacionggplot.html">Visualización</a>
+</li>
+<li>
+  <a href="tibble.html">Datos Tibble</a>
+</li>
+<li>
+  <a href="preprocesado.html">Valores perdidos</a>
+</li>
+<li>
+  <a href="transformacion.html">Transformación</a>
+</li>
+<li>
+  <a href="seleccionvariables.html">Selección Variables</a>
+</li>
+<li>
+  <a href="ruido.html">Ruido</a>
+</li>
+<li>
+  <a href="anomalias.html">Anomalias</a>
+</li>
+<li>
+  <a href="caret.html">Caret</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Anomalías</h1>
+<h4 class="author"><em>joseangeldiazg</em></h4>
+<h4 class="date"><em>17/1/2018</em></h4>
+
+</div>
+
+
+<p>Cargamos la libreria outliers.</p>
+<pre class="r"><code>library(outliers)
+library(ggplot2)</code></pre>
+<p>Leemos los datos:</p>
+<pre class="r"><code># se carga el archivo con las funcione de lectura de datos
+source(&quot;lecturaDatos.R&quot;)
+
+path &lt;- &quot;./data/&quot;
+file &lt;- &quot;datos.csv&quot;
+
+# lectura de los datos
+datos &lt;- lecturaDatos(path,file)</code></pre>
+<p>Ahora detectamos las anomalias para algunas variables:</p>
+<pre class="r"><code>#detección de anomalias para las variable 1 a 3. Observad  que no tiene sentido considerar variables de tipo discreto en este analisis. La función devuelve el valor (o valores) considerados anomalos para las variable de interes. Este método solo considera las desviaciones con respecto a los valores de cada variable (no relaciones con otras variables)
+
+anomalos &lt;- outlier(datos[,1:3])
+print(anomalos)</code></pre>
+<pre><code>##  separation  propensity      length 
+## 1221.000000    2.638864 1244.000000</code></pre>
+<pre class="r"><code># la media de la variable separation es
+mean(datos[,&quot;separation&quot;])</code></pre>
+<pre><code>## [1] 93.67455</code></pre>
+<pre class="r"><code># se muestra la distribucion de separation en funcion del valor
+# de la variable clase
+ggplot(data = datos, aes(class, separation)) +
+  geom_boxplot()</code></pre>
+<p><img src="anomalias_files/figure-html/unnamed-chunk-27-1.png" width="672" /></p>
+<pre class="r"><code># se podría hacer igual con la variable propensity
+ggplot(data = datos, aes(class, propensity)) +
+  geom_boxplot()</code></pre>
+<p><img src="anomalias_files/figure-html/unnamed-chunk-27-2.png" width="672" /></p>
+<p>Para el problema de los valores anómalos tambien tenemos el</p>
+<pre class="r"><code>require(mvoutlier)
+
+# se usa el conjunto de datos de calidad del aire, en las
+# mismas condiciones que vimos con anterioridad
+datos &lt;- airquality
+
+# se determina el numero de instancias sin datos perdidos y con datos
+# perdidos. A observar la comodidad de uso de las funciones ncc e nic
+completos &lt;- mice::ncc(datos)
+incompletos &lt;- mice::nic(datos)
+cat(&quot;Datos completos: &quot;,completos, &quot; e incompletos: &quot;,incompletos,&quot;\n&quot;)</code></pre>
+<pre><code>## Datos completos:  111  e incompletos:  42</code></pre>
+<pre class="r"><code># se imputan los datos
+imputados &lt;- mice::mice(datos)</code></pre>
+<pre><code>## 
+##  iter imp variable
+##   1   1  Ozone  Solar.R
+##   1   2  Ozone  Solar.R
+##   1   3  Ozone  Solar.R
+##   1   4  Ozone  Solar.R
+##   1   5  Ozone  Solar.R
+##   2   1  Ozone  Solar.R
+##   2   2  Ozone  Solar.R
+##   2   3  Ozone  Solar.R
+##   2   4  Ozone  Solar.R
+##   2   5  Ozone  Solar.R
+##   3   1  Ozone  Solar.R
+##   3   2  Ozone  Solar.R
+##   3   3  Ozone  Solar.R
+##   3   4  Ozone  Solar.R
+##   3   5  Ozone  Solar.R
+##   4   1  Ozone  Solar.R
+##   4   2  Ozone  Solar.R
+##   4   3  Ozone  Solar.R
+##   4   4  Ozone  Solar.R
+##   4   5  Ozone  Solar.R
+##   5   1  Ozone  Solar.R
+##   5   2  Ozone  Solar.R
+##   5   3  Ozone  Solar.R
+##   5   4  Ozone  Solar.R
+##   5   5  Ozone  Solar.R</code></pre>
+<pre class="r"><code>datos &lt;- mice::complete(imputados)
+
+# se analizan los datos en busca de anomalias. El grafico
+# resultante muestra en rojo los datos considerados considerados
+# como anomalos
+resultados &lt;- mvoutlier::uni.plot(datos)</code></pre>
+<p><img src="anomalias_files/figure-html/unnamed-chunk-28-1.png" width="672" /></p>
+<pre class="r"><code># a partir de resultado es posible conocer las instancias en que
+# aparece algun dato anomalo. Esto podria usarse para filtrar las
+# instancias y quedarnos con aquellas en que no haya anomalias (o
+# bien aplicar alguna tecnica para modificar sus valores)
+print(resultados$outliers)</code></pre>
+<pre><code>##   [1]  TRUE FALSE FALSE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE FALSE FALSE
+##  [12] FALSE FALSE FALSE  TRUE FALSE FALSE  TRUE FALSE  TRUE  TRUE FALSE
+##  [23]  TRUE  TRUE  TRUE  TRUE  TRUE FALSE FALSE  TRUE FALSE FALSE FALSE
+##  [34]  TRUE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+##  [45] FALSE FALSE FALSE  TRUE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+##  [56] FALSE FALSE FALSE FALSE FALSE FALSE  TRUE FALSE FALSE FALSE FALSE
+##  [67] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+##  [78] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+##  [89] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+## [100] FALSE FALSE  TRUE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+## [111] FALSE FALSE FALSE FALSE FALSE FALSE  TRUE FALSE FALSE FALSE FALSE
+## [122] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+## [133] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+## [144] FALSE FALSE FALSE FALSE  TRUE FALSE FALSE FALSE FALSE FALSE</code></pre>
+<pre class="r"><code># seleccion de instancias sin anomalias
+datosFinales &lt;- datos[!resultados$outliers, ]</code></pre>
+<p>Todo lo representado con puntos verdes representa valores normales mientras que los puntos rojos representan valores anomalos. Pueden aparecer en el centro, y esto indicará que están asociados a otras instancias anómalas o que la combinacion de varias variables indican que es anómalo.</p>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

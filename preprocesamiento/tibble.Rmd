@@ -17,7 +17,7 @@ library(nycflights13)
 
 ```{r}
 flights
-unoEnero<- filter(flights, month=1, day=1)
+unoEnero<-filter(flights, month==1, day==1)
 ```
 
 

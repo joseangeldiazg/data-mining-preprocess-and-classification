@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+<meta name="author" content="joseangeldiazg" />
+
+
+<title>Untitled</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 51px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+
+.section h2 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h3 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h4 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h5 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h6 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+<!-- code folding -->
+
+
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Pre-procesado de datos con R</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="visualizacionggplot.html">Visualización</a>
+</li>
+<li>
+  <a href="tibble.html">Datos Tibble</a>
+</li>
+<li>
+  <a href="preprocesado.html">Valores perdidos</a>
+</li>
+<li>
+  <a href="transformacion.html">Transformación</a>
+</li>
+<li>
+  <a href="seleccionvariables.html">Selección Variables</a>
+</li>
+<li>
+  <a href="ruido.html">Ruido</a>
+</li>
+<li>
+  <a href="anomalias.html">Anomalias</a>
+</li>
+<li>
+  <a href="caret.html">Caret</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Untitled</h1>
+<h4 class="author"><em>joseangeldiazg</em></h4>
+<h4 class="date"><em>17/1/2018</em></h4>
+
+</div>
+
+
+<p>La transformación se basa en el centrado y escalado de los datos.</p>
+<pre class="r"><code>require(mice)
+require(caret)
+
+# se usa el conjunto de datos de calidad del aire, en las mismas condiciones que vimos con anterioridad
+datos &lt;- airquality
+
+# se determina el numero de instancias sin datos perdidos y con datos perdidos. A observar la comodidad de uso de las funciones ncc e nic
+completos &lt;- ncc(datos)
+incompletos &lt;- nic(datos)
+cat(&quot;Datos completos: &quot;,completos, &quot; e incompletos: &quot;,incompletos,&quot;\n&quot;)</code></pre>
+<pre><code>## Datos completos:  111  e incompletos:  42</code></pre>
+<pre class="r"><code># se imputan los datos
+imputados &lt;- mice(datos)</code></pre>
+<pre><code>## 
+##  iter imp variable
+##   1   1  Ozone  Solar.R
+##   1   2  Ozone  Solar.R
+##   1   3  Ozone  Solar.R
+##   1   4  Ozone  Solar.R
+##   1   5  Ozone  Solar.R
+##   2   1  Ozone  Solar.R
+##   2   2  Ozone  Solar.R
+##   2   3  Ozone  Solar.R
+##   2   4  Ozone  Solar.R
+##   2   5  Ozone  Solar.R
+##   3   1  Ozone  Solar.R
+##   3   2  Ozone  Solar.R
+##   3   3  Ozone  Solar.R
+##   3   4  Ozone  Solar.R
+##   3   5  Ozone  Solar.R
+##   4   1  Ozone  Solar.R
+##   4   2  Ozone  Solar.R
+##   4   3  Ozone  Solar.R
+##   4   4  Ozone  Solar.R
+##   4   5  Ozone  Solar.R
+##   5   1  Ozone  Solar.R
+##   5   2  Ozone  Solar.R
+##   5   3  Ozone  Solar.R
+##   5   4  Ozone  Solar.R
+##   5   5  Ozone  Solar.R</code></pre>
+<pre class="r"><code>datos &lt;- mice::complete(imputados)
+
+# se aplica el centrado y escalado sobre el conjunto de datos, una vez eliminados los valores perdidos
+valoresPreprocesados &lt;- caret::preProcess(datos[,1:4],method=c(&quot;center&quot;,&quot;scale&quot;))
+
+# el resultado consiste en el escalado y centrado de las variables de la 1 a la 4 (las que pueden considerarse continuas). El resultado anterior se usa ahora para asignar a las variables los valores correspondientes de acuerdo a esta transformacion
+valoresTransformados &lt;- predict(valoresPreprocesados,datos[,1:4])
+
+# y podemos generar un nuevo conjunto de datos con el que seguir aplicando tecnicas con las 4 variables transformadas y las dos que no se tocaron
+datosFinales &lt;- cbind(valoresTransformados,datos[,5:6])</code></pre>
+<p>Para pasar los datos numericos a discretos podemos usar un paquete de discretizacion que nos dará puntos de corte optimos sobre los datos continuos.</p>
+<pre class="r"><code>require(discretization)
+
+# se usa el conjunto de datos de calidad del aire, en las
+# mismas condiciones que vimos con anterioridad
+datos &lt;- iris
+
+# discretizacion mediante metodo CAIM
+cm &lt;- discretization::disc.Topdown(iris, method=1)
+
+# se muestran los puntos de corte
+cat(&quot;Puntos de corte metodo CAIM: \n&quot;)</code></pre>
+<pre><code>## Puntos de corte metodo CAIM:</code></pre>
+<pre class="r"><code>print(cm$cutp)</code></pre>
+<pre><code>## [[1]]
+## [1] 4.30 5.55 6.25 7.90
+## 
+## [[2]]
+## [1] 2.00 2.95 3.05 4.40
+## 
+## [[3]]
+## [1] 1.00 2.45 4.75 6.90
+## 
+## [[4]]
+## [1] 0.10 0.80 1.75 2.50</code></pre>
+<pre class="r"><code># los datos discretizados se mostrarian de la
+# forma siguiente
+cat(&quot;Datos discretizados: \n&quot;)</code></pre>
+<pre><code>## Datos discretizados:</code></pre>
+<pre class="r"><code>print(cm$Disc.data)</code></pre>
+<pre><code>##     Sepal.Length Sepal.Width Petal.Length Petal.Width    Species
+## 1              1           3            1           1     setosa
+## 2              1           2            1           1     setosa
+## 3              1           3            1           1     setosa
+## 4              1           3            1           1     setosa
+## 5              1           3            1           1     setosa
+## 6              1           3            1           1     setosa
+## 7              1           3            1           1     setosa
+## 8              1           3            1           1     setosa
+## 9              1           1            1           1     setosa
+## 10             1           3            1           1     setosa
+## 11             1           3            1           1     setosa
+## 12             1           3            1           1     setosa
+## 13             1           2            1           1     setosa
+## 14             1           2            1           1     setosa
+## 15             2           3            1           1     setosa
+## 16             2           3            1           1     setosa
+## 17             1           3            1           1     setosa
+## 18             1           3            1           1     setosa
+## 19             2           3            1           1     setosa
+## 20             1           3            1           1     setosa
+## 21             1           3            1           1     setosa
+## 22             1           3            1           1     setosa
+## 23             1           3            1           1     setosa
+## 24             1           3            1           1     setosa
+## 25             1           3            1           1     setosa
+## 26             1           2            1           1     setosa
+## 27             1           3            1           1     setosa
+## 28             1           3            1           1     setosa
+## 29             1           3            1           1     setosa
+## 30             1           3            1           1     setosa
+## 31             1           3            1           1     setosa
+## 32             1           3            1           1     setosa
+## 33             1           3            1           1     setosa
+## 34             1           3            1           1     setosa
+## 35             1           3            1           1     setosa
+## 36             1           3            1           1     setosa
+## 37             1           3            1           1     setosa
+## 38             1           3            1           1     setosa
+## 39             1           2            1           1     setosa
+## 40             1           3            1           1     setosa
+## 41             1           3            1           1     setosa
+## 42             1           1            1           1     setosa
+## 43             1           3            1           1     setosa
+## 44             1           3            1           1     setosa
+## 45             1           3            1           1     setosa
+## 46             1           2            1           1     setosa
+## 47             1           3            1           1     setosa
+## 48             1           3            1           1     setosa
+## 49             1           3            1           1     setosa
+## 50             1           3            1           1     setosa
+## 51             3           3            2           2 versicolor
+## 52             3           3            2           2 versicolor
+## 53             3           3            3           2 versicolor
+## 54             1           1            2           2 versicolor
+## 55             3           1            2           2 versicolor
+## 56             2           1            2           2 versicolor
+## 57             3           3            2           2 versicolor
+## 58             1           1            2           2 versicolor
+## 59             3           1            2           2 versicolor
+## 60             1           1            2           2 versicolor
+## 61             1           1            2           2 versicolor
+## 62             2           2            2           2 versicolor
+## 63             2           1            2           2 versicolor
+## 64             2           1            2           2 versicolor
+## 65             2           1            2           2 versicolor
+## 66             3           3            2           2 versicolor
+## 67             2           2            2           2 versicolor
+## 68             2           1            2           2 versicolor
+## 69             2           1            2           2 versicolor
+## 70             2           1            2           2 versicolor
+## 71             2           3            3           3 versicolor
+## 72             2           1            2           2 versicolor
+## 73             3           1            3           2 versicolor
+## 74             2           1            2           2 versicolor
+## 75             3           1            2           2 versicolor
+## 76             3           2            2           2 versicolor
+## 77             3           1            3           2 versicolor
+## 78             3           2            3           2 versicolor
+## 79             2           1            2           2 versicolor
+## 80             2           1            2           2 versicolor
+## 81             1           1            2           2 versicolor
+## 82             1           1            2           2 versicolor
+## 83             2           1            2           2 versicolor
+## 84             2           1            3           2 versicolor
+## 85             1           2            2           2 versicolor
+## 86             2           3            2           2 versicolor
+## 87             3           3            2           2 versicolor
+## 88             3           1            2           2 versicolor
+## 89             2           2            2           2 versicolor
+## 90             1           1            2           2 versicolor
+## 91             1           1            2           2 versicolor
+## 92             2           2            2           2 versicolor
+## 93             2           1            2           2 versicolor
+## 94             1           1            2           2 versicolor
+## 95             2           1            2           2 versicolor
+## 96             2           2            2           2 versicolor
+## 97             2           1            2           2 versicolor
+## 98             2           1            2           2 versicolor
+## 99             1           1            2           2 versicolor
+## 100            2           1            2           2 versicolor
+## 101            3           3            3           3  virginica
+## 102            2           1            3           3  virginica
+## 103            3           2            3           3  virginica
+## 104            3           1            3           3  virginica
+## 105            3           2            3           3  virginica
+## 106            3           2            3           3  virginica
+## 107            1           1            2           2  virginica
+## 108            3           1            3           3  virginica
+## 109            3           1            3           3  virginica
+## 110            3           3            3           3  virginica
+## 111            3           3            3           3  virginica
+## 112            3           1            3           3  virginica
+## 113            3           2            3           3  virginica
+## 114            2           1            3           3  virginica
+## 115            2           1            3           3  virginica
+## 116            3           3            3           3  virginica
+## 117            3           2            3           3  virginica
+## 118            3           3            3           3  virginica
+## 119            3           1            3           3  virginica
+## 120            2           1            3           2  virginica
+## 121            3           3            3           3  virginica
+## 122            2           1            3           3  virginica
+## 123            3           1            3           3  virginica
+## 124            3           1            3           3  virginica
+## 125            3           3            3           3  virginica
+## 126            3           3            3           3  virginica
+## 127            2           1            3           3  virginica
+## 128            2           2            3           3  virginica
+## 129            3           1            3           3  virginica
+## 130            3           2            3           2  virginica
+## 131            3           1            3           3  virginica
+## 132            3           3            3           3  virginica
+## 133            3           1            3           3  virginica
+## 134            3           1            3           2  virginica
+## 135            2           1            3           2  virginica
+## 136            3           2            3           3  virginica
+## 137            3           3            3           3  virginica
+## 138            3           3            3           3  virginica
+## 139            2           2            3           3  virginica
+## 140            3           3            3           3  virginica
+## 141            3           3            3           3  virginica
+## 142            3           3            3           3  virginica
+## 143            2           1            3           3  virginica
+## 144            3           3            3           3  virginica
+## 145            3           3            3           3  virginica
+## 146            3           2            3           3  virginica
+## 147            3           1            3           3  virginica
+## 148            3           2            3           3  virginica
+## 149            2           3            3           3  virginica
+## 150            2           2            3           3  virginica</code></pre>
+<pre class="r"><code># discretizacion mediante CACC
+cmCacc &lt;- disc.Topdown(datos, method=2)
+
+# se muestran los puntos de corte
+cat(&quot;Puntos de corte metodo CACC: \n&quot;)</code></pre>
+<pre><code>## Puntos de corte metodo CACC:</code></pre>
+<pre class="r"><code>print(cm$cutp)</code></pre>
+<pre><code>## [[1]]
+## [1] 4.30 5.55 6.25 7.90
+## 
+## [[2]]
+## [1] 2.00 2.95 3.05 4.40
+## 
+## [[3]]
+## [1] 1.00 2.45 4.75 6.90
+## 
+## [[4]]
+## [1] 0.10 0.80 1.75 2.50</code></pre>
+<pre class="r"><code># discretizacion mediante AMEVA
+cmAmeva &lt;- disc.Topdown(datos, method=3)
+
+# se muestran los puntos de corte
+cat(&quot;Puntos de corte metodo AMEVA: \n&quot;)</code></pre>
+<pre><code>## Puntos de corte metodo AMEVA:</code></pre>
+<pre class="r"><code>print(cm$cutp)</code></pre>
+<pre><code>## [[1]]
+## [1] 4.30 5.55 6.25 7.90
+## 
+## [[2]]
+## [1] 2.00 2.95 3.05 4.40
+## 
+## [[3]]
+## [1] 1.00 2.45 4.75 6.90
+## 
+## [[4]]
+## [1] 0.10 0.80 1.75 2.50</code></pre>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

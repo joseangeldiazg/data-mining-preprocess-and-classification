@@ -21,7 +21,7 @@ cat("Datos completos: ",completos, " e incompletos: ",incompletos,"\n")
 
 # se imputan los datos
 imputados <- mice(datos)
-datos <- complete(imputados)
+datos <- mice::complete(imputados)
 
 # se aplica el centrado y escalado sobre el conjunto de datos, una vez eliminados los valores perdidos
 valoresPreprocesados <- caret::preProcess(datos[,1:4],method=c("center","scale"))
