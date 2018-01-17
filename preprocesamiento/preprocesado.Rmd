@@ -125,6 +125,75 @@ También podemos ver la distribución de una variable respecto de la otra.
 marginplot(datos[,1:2])
 ```
 
-Podemos considerar la distribución de los valores perdidos como aleatoria. 
+Podemos considerar la distribución de los valores perdidos como aleatoria. Vamos a imputar los valores perdidos
 
 
+```{r}
+library(mice)
+library(lattice)
+
+# se determina el numero de instancias sin datos perdidos y con datos
+# perdidos. A observar la comodidad de uso de las funciones ncc e nic
+
+completos <- mice::ncc(datos)
+incompletos <- mice::nic(datos)
+cat("Datos completos: ",completos, " e incompletos: ",incompletos,"\n")
+
+# se realiza la imputacion con el método pmm
+imputados <- mice::mice(datos, m=5, meth="pmm")
+
+# Tambien se dispone de algunos metodos que imputan siempre a un unico valor, como por ejemplo "mean"
+
+imputadosMean <- mice::mice(datos, m=1, meth="mean")
+
+#pmm es el metodo por defecto. Puedes verse todos los metodos disponibles de la siguiente forma
+methods(mice)
+
+#se completa el conjunto de datos con las imputaciones
+
+datosImputados <- mice::complete(imputados)
+```
+
+Por último pueden realizarse gráficos para ver como se ha comportado la imputación de los datos. 
+
+```{r}
+ # perdidos en la parte ya limpia
+completos <- mice::ncc(datosImputados)
+incompletos <- mice::nic(datosImputados)
+cat("Datos completos: ",completos, " e incompletos: ",incompletos,"\n")
+
+# se muestra la imputacion para Ozone
+imputados$imp$Ozone
+
+# Se muestra un grafico para comprobar la distribucion de Ozone en los datos imputados en relacion a otras variables. Los puntos en azul repreentan datos observados y datos en rojo representan imputaciones
+
+lattice::xyplot(imputados,Ozone ~ Solar.R,pch=18,cex=1)
+
+# Se muestran las densidades de los datos imputados respecto de los observados
+lattice::densityplot(imputados)
+
+# Se muestran los diagramas de caja para las imputaciones
+lattice::bwplot(imputados)
+```
+
+Otro paquete para imputar es rob compositions que utiliza KNN para la imputación. Este método tambien permite realizar gráficos sobre la imputación. 
+
+
+```{r}
+require(robCompositions)
+
+# se hace la imputacion
+
+imputados <- robCompositions::impKNNa(datos)
+
+#Ahora puede visualizarse alguna informacion sobre la forma en que se hizo la imputacion. El segundo argumento indica el tipo de grafico a obtener
+
+plot(imputados, which=2)
+
+# El conjunto de datos completo puede accederse de la siguiente forma
+
+imputados$xImp
+```
+
+
+En este caso, se muestra en azul todas las instancias que antes existian y en rojo las nuevas, si vemos que sigue una distribución similar y que no se salen, la imputación habra tenido un buen resultado. 

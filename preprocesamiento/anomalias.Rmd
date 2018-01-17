@@ -1,0 +1,87 @@
+---
+title: "Anomalías"
+author: "joseangeldiazg"
+date: "17/1/2018"
+output: html_document
+---
+
+Cargamos la libreria outliers.
+
+```{r}
+library(outliers)
+library(ggplot2)
+```
+
+
+Leemos los datos:
+
+```{r}
+# se carga el archivo con las funcione de lectura de datos
+source("lecturaDatos.R")
+
+path <- "./data/"
+file <- "datos.csv"
+
+# lectura de los datos
+datos <- lecturaDatos(path,file)
+```
+
+
+Ahora detectamos las anomalias para algunas variables:
+
+```{r}
+
+#detección de anomalias para las variable 1 a 3. Observad  que no tiene sentido considerar variables de tipo discreto en este analisis. La función devuelve el valor (o valores) considerados anomalos para las variable de interes. Este método solo considera las desviaciones con respecto a los valores de cada variable (no relaciones con otras variables)
+
+anomalos <- outlier(datos[,1:3])
+print(anomalos)
+
+# la media de la variable separation es
+mean(datos[,"separation"])
+
+# se muestra la distribucion de separation en funcion del valor
+# de la variable clase
+ggplot(data = datos, aes(class, separation)) +
+  geom_boxplot()
+
+# se podría hacer igual con la variable propensity
+ggplot(data = datos, aes(class, propensity)) +
+  geom_boxplot()
+```
+
+Para el problema de los valores anómalos tambien tenemos el 
+
+```{r}
+require(mvoutlier)
+
+# se usa el conjunto de datos de calidad del aire, en las
+# mismas condiciones que vimos con anterioridad
+datos <- airquality
+
+# se determina el numero de instancias sin datos perdidos y con datos
+# perdidos. A observar la comodidad de uso de las funciones ncc e nic
+completos <- mice::ncc(datos)
+incompletos <- mice::nic(datos)
+cat("Datos completos: ",completos, " e incompletos: ",incompletos,"\n")
+
+# se imputan los datos
+imputados <- mice::mice(datos)
+datos <- mice::complete(imputados)
+
+# se analizan los datos en busca de anomalias. El grafico
+# resultante muestra en rojo los datos considerados considerados
+# como anomalos
+resultados <- mvoutlier::uni.plot(datos)
+
+# a partir de resultado es posible conocer las instancias en que
+# aparece algun dato anomalo. Esto podria usarse para filtrar las
+# instancias y quedarnos con aquellas en que no haya anomalias (o
+# bien aplicar alguna tecnica para modificar sus valores)
+print(resultados$outliers)
+
+# seleccion de instancias sin anomalias
+datosFinales <- datos[!resultados$outliers, ]
+```
+
+Todo lo representado con puntos verdes representa valores normales mientras que los puntos rojos representan valores anomalos. Pueden aparecer en el centro, y esto indicará que están asociados a otras instancias anómalas o que la combinacion de varias variables indican que es anómalo. 
+
