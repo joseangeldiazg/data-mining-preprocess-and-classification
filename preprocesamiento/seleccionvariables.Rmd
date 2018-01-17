@@ -1,0 +1,124 @@
+---
+title: "Seleccion de caracteristicas"
+author: "joseangeldiazg"
+date: "17/1/2018"
+output: html_document
+---
+
+Cuanto menos variables tenga un modelo más facilmente se interpreta y probablemente sus modelos funcionarán mejor.  
+
+- Filter: Ordena las variables en funciond e importancia medida de alguna forma sin construir modelo. 
+
+- Wrapper: Se crean modelos para determinar la importancia de las variables 
+
+- Embedded: La imporancia de las variables, vendrá dada en funcion de como se hayan construido los modelos. 
+
+
+Hay variables basadas en correlaciones, variables muy correladas pueden obviarse, ya una sola funcionará igual. OneR crea reglas muy sencillas y mide que tal funciona...
+
+
+## Medida de relevancia FILTER:
+
+```{r}
+require(FSelector)
+data(iris)
+
+# se obtienen las medidas mediante ganancia de información entre especies y el resto de los datos. 
+
+weights <- FSelector::information.gain(Species~., iris)
+
+# Se muestran los pesos y se seleccionan los mejores
+print(weights)
+
+# Son cutoff.k, le decimos que seleccione los 2 mayores pesos
+subset <- cutoff.k(weights,2)
+# Con estos datos generamos una formula
+f <- as.simple.formula(subset,"Species")
+print(f)
+
+# Igual, pero con gain ratio, compensa el sesgo de la ganancia de información para dar mas peso o relevancia a los atributos más fuertes
+
+weights <- gain.ratio(Species~., iris)
+print(weights)
+
+#E igual con symmetrical.uncertainty
+weights <- symmetrical.uncertainty(Species~., iris)
+print(weights)
+```
+
+La información que nos muestra es los pesos de las variables. Más valor indicará más relevancia. Al seleccionar las dos mas relevantes, y pasarlos a la funcion **as.simple.formula** nos creará la formula óptima para la creación de nuestros modelos. 
+
+
+## Medidas de relevancia Rapper:
+
+En esta categoria tenemos hill climbing, aproximaciones greedy, la mejor primera búsqueda, que será la que usemos:
+
+```{r}
+library(rpart)
+library(FSelector)
+data(iris)
+set.seed(12345)
+
+# Se define una funcion de evaluacion: recibe como argumento un vector de atributos a evaluar
+evaluator <- function(subset){
+
+  # Se indica el número de particiones a realizar en el proceso de validacion cruzada
+  
+  k <- 10
+  
+  # genera valores aleatorios (uniforme) para cada muestra del conjunto de datos
+
+  splits <- runif(nrow(iris))
+  
+  # Tratamiento de cada una de las particiones. 
+
+  # Para cada valor de particion se aplica la función que se define a continuacion
+
+  results <- sapply(1:k, function(i) {
+
+  # se determina el indice de las muestras para test (aproximadamente una fraccion 1/k de las muestras del conjunto de datos)
+    
+  test.idx <- (splits >= ((i-1)/k) & (splits < (i/k)))
+    
+  # todas las demas muestras seran para training
+  train.idx <- !test.idx
+
+  # se seleccionan las muestras en si
+  test <- iris[test.idx, ,drop=FALSE]
+  train <- iris[train.idx, , drop=FALSE]
+    
+  #En este punto tenemos los conjuntos de test y train con los indices generados antes
+
+  # aprende el modelo sobre el conjunto de entrenamiento
+tree <- rpart::rpart(as.simple.formula(subset,"Species"),train)
+    
+  # calcula la tasa de error
+
+  error.rate <- sum(test$Species != predict(tree, test, type="class"))/nrow(test)
+    
+  # devuelve la tasa de aciertos
+  return(1-error.rate)
+})
+  
+  # se muestra el subconjunto y la media de resultados y se devuelve la media de los resultados (un resultado por particion)
+  print(subset)
+  print(mean(results))
+  return(mean(results))
+}
+
+# con esta funcion de evaluacion la seleccion se haria de la forma siguiente
+subset <- FSelector::best.first.search(names(iris)[-5], evaluator)
+f <- as.simple.formula(subset,"Species")
+print(f)
+```
+
+Al tener cuatro atributos, se entendería como subconjuntos cada atributo por separado. Se obtienen valores de error tras validación cruzada con cada uno de los atributos. Se coje el que mejor funcione, y se pasa ahora una combinación de este mejor de la primera etapa con los restantes... de manera iterativa se van contruyendo modelos hasta que consigamos el mejor. 
+
+
+## Medidas de relevancia Embedded:
+
+Podemos utilizar el Random Forest, y la importancia de sus cortes.
+
+
+
+
