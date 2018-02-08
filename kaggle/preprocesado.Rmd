@@ -1,0 +1,229 @@
+---
+title: "Preprocesado + Rpart"
+author: "joseangeldiazg"
+date: "6/2/2018"
+output: pdf_document
+---
+
+
+## Introducción.
+
+En este documento veremos técnicas de preprocesado de datos y clasificación con Rpart. 
+
+## Librerias
+
+```{r}
+library(Hmisc)
+library(corrplot)
+library(NoiseFiltersR)
+library(rpart)
+library(caret)
+library(mice)
+library(DMwR)
+library(dummies)
+```
+
+## Lectura de datos
+
+```{r}
+Train <- read.csv2("data/my_dataset_train.csv", sep=",", dec=".", stringsAsFactors = FALSE)
+Test <- read.csv2("data/my_dataset_test.csv", sep=",", dec=".", stringsAsFactors = FALSE)
+```
+
+## Vamos a comprobar de que tipo son los datos
+
+```{r}
+str(Train)
+describe(Train)
+```
+
+Vemos variables categoricas que facilmente pueden pasar a número. 
+
+
+```{r}
+head(Train[,c("x0", "x14", "x17", "x51", "x61", "x63")])
+```
+
+Para tener todos los datos normalizados vamos a pasar los vacios a NA, y tras esto pasaremos todas las variables a numericas. 
+
+```{r}
+Train$x0[which(Train$x0=="")]<-NA
+Train$x14[which(Train$x14=="")]<-NA 
+Train$x17[which(Train$x17=="")]<-NA 
+Train$x51[which(Train$x51=="")]<-NA 
+Train$x61[which(Train$x61=="")]<-NA 
+Train$x63[which(Train$x63=="")]<-NA 
+```
+
+```{r}
+Train$x63<-ifelse(Train$x63=="active",1,0)
+Train$x14<-ifelse(Train$x14=="true",1,0)
+Train$x51<-ifelse(Train$x51=="yes",1,0)
+```
+
+Ya tenemos las variables binarias cambiadaas, ahora solo tendremos que cambiar los demas strings y para ello usaremos el comando substring para eliminar la palabra delante del número y luego pasaremos a categórico. 
+
+```{r}
+Train$x17<-substring(Train$x17,4,5)
+Train$x61<-substring(Train$x61,4,5)
+```
+
+Por último tenemos que modificar la variable x0.
+
+```{r}
+Train$x0[Train$x0=="L"]<-1
+Train$x0[Train$x0=="M"]<-2
+Train$x0[Train$x0=="S"]<-3
+Train$x0[Train$x0=="VL"]<-4
+Train$x0[Train$x0=="VS"]<-5
+```
+
+Por último pasamos todas a numerico. 
+
+
+```{r}
+Train$x0  <- as.numeric(Train$x0)
+Train$x14 <- as.numeric(Train$x14)
+Train$x17 <- as.numeric(Train$x17)
+Train$x51 <- as.numeric(Train$x51)
+Train$x61 <- as.numeric(Train$x61 )
+Train$x63 <- as.numeric(Train$x63)
+str(Train)
+```
+
+
+## Valores perdidos:
+
+```{r}
+mice_mod <- mice(Train[,colnames(Train)], method='cart')
+TrainComplete <- complete(mice_mod)
+summary(TrainComplete)
+```
+
+
+Parece que la variable x41 no se ha imputado, puede ser que estemos ante una variable facilmente suprimible porque es igual a otra. La suprimiremos de nuestro problema. 
+
+
+```{r}
+summary(TrainComplete[,-42])
+TrainComplete<-TrainComplete[,-42]
+```
+
+
+## Solo variables numéricas
+
+```{r}
+
+TrainComplete<-TrainComplete[,-c(1,15,18,51,61,63)]
+
+```
+
+
+## Ruido
+
+Vamos a aplicar un filtro de ruido IPF para mejorar los datos. 
+
+```{r}
+TrainComplete$y<-as.factor(TrainComplete$y)
+out <- IPF(y~., data = TrainComplete, s = 2)
+TrainClean<-out$cleanData
+```
+
+
+
+## Clasificación
+
+Por último creamos el modelo. 
+
+```{r}
+
+control <- trainControl(method = "cv", number = 10, returnResamp = "all", search = "random")
+
+trainModelRpart <- train(y ~.,  data = oversampledTrain, 
+                            method = "rpart", 
+                            trControl = control,
+                            preProc = c("center", "scale"),
+                            tuneLength = 50)
+
+trainModelRpart
+
+trainModelKNN <- train(y ~.,  data = oversampledTrainClean, 
+                            method = "knn",
+                            trControl = control,
+                            preProc = c("center", "scale"),
+                            tuneGrid = data.frame(.k=1))
+
+
+trainModelKNN
+```
+
+PRUEBAS:
+
+Train cart para valores perdidos, ipf, oversampled -> 0.8862979
+Train cart para valores perdidos, ipf, oversampled, ipf -> 0.9012908
+
+oversampledTrain
+
+
+Por último aplicamos la misma imputación de valores perdidos a nuestro test y se lo pasamos al modelo para comprobar como funciona. 
+
+
+```{r}
+Test$x0[which(Test$x0=="")]<-NA
+Test$x14[which(Test$x14=="")]<-NA 
+Test$x17[which(Test$x17=="")]<-NA 
+Test$x51[which(Test$x51=="")]<-NA 
+Test$x61[which(Test$x61=="")]<-NA 
+Test$x63[which(Test$x63=="")]<-NA 
+
+Test$x63<-ifelse(Test$x63=="active",1,0)
+Test$x14<-ifelse(Test$x14=="true",1,0)
+Test$x51<-ifelse(Test$x51=="yes",1,0)
+
+Test$x17<-substring(Test$x17,4,5)
+Test$x61<-substring(Test$x61,4,5)
+
+Test$x0[Test$x0=="L"]<-1
+Test$x0[Test$x0=="M"]<-2
+Test$x0[Test$x0=="S"]<-3
+Test$x0[Test$x0=="VL"]<-4
+Test$x0[Test$x0=="VS"]<-5
+
+
+Test$x0  <- as.numeric(Test$x0)
+Test$x14 <- as.numeric(Test$x14)
+Test$x17 <- as.numeric(Test$x17)
+Test$x51 <- as.numeric(Test$x51)
+Test$x61 <- as.numeric(Test$x61 )
+Test$x63 <- as.numeric(Test$x63)
+
+mice_mod <- mice(Test[,colnames(Test)], method='cart')
+TestComplete <- complete(mice_mod)
+summary(TestComplete)
+
+TestComplete<-TestComplete[,-42]
+TestComplete<-TestComplete[,-c(1,15,18,51,61,63)]
+
+```
+
+
+Creamos el submision para Kaggle. 
+
+```{r}
+testing <- predict(trainModelKNN, TestComplete)
+write.csv(testing, "sub/salida.csv")
+testing <- read.csv("sub/salida.csv")
+testing <- cbind(Id=1:683, Prediction=testing$x)
+write.table(testing, "sub/knn-cartmv-clean-smote-clean.csv", col.names = TRUE, row.names = FALSE,
+            quote=FALSE, sep = ",")
+```
+
+
+
+
+
+
+
+
+
+
