@@ -1,6 +1,13 @@
 \select@language {spanish}
 \addvspace {10\p@ }
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {2.1}{\ignorespaces Croquis de la planificaci\'on seguida.}}{10}{figure.2.1}
+\contentsline {figure}{\numberline {2.1}{\ignorespaces Croquis de la planificaci\'on seguida.}}{11}{figure.2.1}
 \addvspace {10\p@ }
+\contentsline {figure}{\numberline {3.1}{\ignorespaces Distribuci\'on de valores perdidos en train.}}{13}{figure.3.1}
+\contentsline {figure}{\numberline {3.2}{\ignorespaces Distribuci\'on de valores perdidos en test.}}{14}{figure.3.2}
+\contentsline {figure}{\numberline {3.3}{\ignorespaces Distribuci\'on de valores perdidos en train y test.}}{14}{figure.3.3}
+\contentsline {figure}{\numberline {3.4}{\ignorespaces Correlaci\'on de variables.}}{15}{figure.3.4}
+\contentsline {figure}{\numberline {3.5}{\ignorespaces Boxplot de la primera mitad.}}{16}{figure.3.5}
+\contentsline {figure}{\numberline {3.6}{\ignorespaces Boxplot de la segunda mitad.}}{16}{figure.3.6}
+\contentsline {figure}{\numberline {3.7}{\ignorespaces Distribuci\'on de clases.}}{17}{figure.3.7}
 \addvspace {10\p@ }
