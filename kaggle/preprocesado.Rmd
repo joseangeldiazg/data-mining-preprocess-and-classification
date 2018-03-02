@@ -21,6 +21,7 @@ library(caret)
 library(mice)
 library(DMwR)
 library(dummies)
+library(unbalanced)
 ```
 
 ## Lectura de datos
@@ -71,11 +72,11 @@ Train$x61<-substring(Train$x61,4,5)
 Por último tenemos que modificar la variable x0.
 
 ```{r}
-Train$x0[Train$x0=="L"]<-1
-Train$x0[Train$x0=="M"]<-2
-Train$x0[Train$x0=="S"]<-3
-Train$x0[Train$x0=="VL"]<-4
-Train$x0[Train$x0=="VS"]<-5
+Train$x0[Train$x0=="L"]<-4
+Train$x0[Train$x0=="M"]<-3
+Train$x0[Train$x0=="S"]<-2
+Train$x0[Train$x0=="VL"]<-5
+Train$x0[Train$x0=="VS"]<-1
 ```
 
 Por último pasamos todas a numerico. 

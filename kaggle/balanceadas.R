@@ -31,16 +31,16 @@ train2vs3$y <- as.factor(train2vs3$y)
 #Aplciamos el smote para crear las muestras deseadas
 
 table(train0vs3$y)
-newTrain0vs3 <- SMOTE(y ~., train0vs3,perc.under = 97  ,perc.over = 4500)
+newTrain0vs3 <- ubSMOTE(y ~.,perc.over = 4500)
 table(newTrain0vs3$y)
 
 table(train1vs3$y)
-newTrain1vs3 <- SMOTE(y ~., train1vs3,perc.under = 360  ,perc.over = 195)
+newTrain1vs3 <- ubSMOTE(y ~.,perc.over = 195)
 table(newTrain1vs3$y)
 
 
 table(train2vs3$y)
-newTrain2vs3 <- SMOTE(y ~., train2vs3,perc.under = 200  ,perc.over = 10)
+newTrain2vs3 <- ubSMOTE(y ~.,perc.over = 10)
 table(newTrain2vs3$y)
 
 

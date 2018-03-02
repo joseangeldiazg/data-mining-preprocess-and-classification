@@ -1,0 +1,45 @@
+%---------------------------------------------------
+% Nombre: capitulo1.tex  
+% 
+% Texto del capitulo 1
+%---------------------------------------------------
+
+\chapter{Introducción}
+\label{introduccion}
+
+En este primer capítulo de la memoria veremos en detalle la introducción al problema que se pedía resolver como parte de la evaluación práctica de la asignatura \textbf{Minería de Datos: Pre-procesamiento y clasificación}, enmarcada dentro del Máster en Ciencia de Datos de la Universidad de Granada. 
+
+\section{Introducción}
+La reciente incursión de las técnicas de minería de datos en actividades cotidianas o diarias constatando sus innumerables aplicaciones en diversos dominios o problemas, han propiciado que de en año en año sean más los profesionales de sectores muy dispares que deciden formarse en estas tareas que les lleven a ostentar en un futuro próximo el título de científicos de datos. Este creciente interés ha propiciado también un caldo de cultivo perfecto para diversas plataformas online que ayudan a estos profesionales en su proceso de formación siendo una de las plataformas más conocidas Kaggle \cite{kaggle}.
+
+ Esta plataforma, se basa en proponer problemas reales de minería de datos que cualquier persona interesada en la temática puede intentar resolver, en muchos casos sin grandes necesidades de computo o máquinas potentes. Esta plataforma evalúa los resultados aportados por cada participante y evalúa un ranking en función de diversas medidas de bondad, lo que la ha convertido también en  una herramienta esencial entre los docentes del ámbito de la ciencia de datos que la usan para enfrentar a sus alumnos con problemas reales de ciencia de datos. Esta memoria, se centra por tanto en detallar el proceso llevado a cabo por los autores para resolver un problema propuesto por los profesores de la asignatura en la plataforma Kaggle. El problema en cuestión, será definido en la siguiente sección. 
+
+\section{Definición del problema}
+
+El problema propuesto para su resolución es un problema de clasificación que debería abordarse usando técnicas de pre-procesado y cuatro algoritmos de clasificación de diversas vertientes, a saber, reglas, árboles, vecinos más cercanos y regresión logística. El grueso por tanto del problema residirá en el proceso de pre-procesado de datos ya que los algoritmos que veremos en la sección \ref{metodologia} no admiten muchas modificaciones en sus parámetros.
+
+ El conjunto de datos de entrenamiento está formado por 2728 observaciones con 74 variables además de la clase catalogada como \textbf{Y} y que puede tomar cuatro valores distintos (0,1,2,3). Las variables de entrenamiento, tienen todas valores numéricos continuos exceptuando las que se pueden ver en la siguiente tabla y que son strings con distintos dominios.
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|c|c|l|}
+\hline
+\textit{\textbf{Variable}} & \textit{\textbf{Tipo}}      & \textit{\textbf{Dominio}} \\ \hline
+\textit{\textbf{x0}}       & string                      & VS, S, M, L , VL          \\ \hline
+\textit{\textbf{x14}}      & string                      & true / false              \\ \hline
+\textit{\textbf{x17}}      & string                      & way1, way2, way3...       \\ \hline
+\textit{\textbf{x51}}      & string                      & no / yes                  \\ \hline
+\textit{\textbf{x63}}      & \multicolumn{1}{l|}{string} & active / inactiva         \\ \hline
+\end{tabular}
+\caption{Variables no numéricas}
+\label{nonumericas}
+\end{table}
+
+Utilizando por tanto las variables descritas anteriormente, se crearán modelos que se usen para evaluar un conjunto de test de unas 600 observaciones sin etiquetar que serán las que Kaggle use para la obtención del valor de accuracy \footnote{Porcentaje de acierto.} con el que se creará el ranking final. 
+
+\section{Organización del trabajo} 
+
+Tras esta introducción al problema y a la asignatura, los siguientes capítulos abordan el problema comenzando por la metodología y planificación del equipo seguida (capítulo \ref{metodologia}), siguiendo por una detallada explicación del proceso de pre-procesado (capítulo \ref{pre}) y finalizando con las conclusiones finales y un resumen del trabajo realizado  (capítulo \ref{conlusion}).
+
+\clearpage
+%---------------------------------------------------

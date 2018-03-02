@@ -1,0 +1,64 @@
+%---------------------------------------------------
+% Nombre: reglas.tex  
+% 
+% Texto del capitulo 1
+%---------------------------------------------------
+
+\chapter{Metodología y planificación}
+\label{metodologia}
+
+En este capítulo se detallan los algoritmos usados durante los procesos siguientes así como la metodología de trabajo y desarrollo llevada a cabo por el equipo durante el transcurso de la práctica para favorecer mejores resultados y sobre todo optimizar tiempos. 
+
+\section{Algoritmos utilizados}
+
+Los algoritmos propuestos para la realización de la práctica pertenecen a ramas dispares dentro del aprendizaje automático, estos son: Ripper, basado en reglas, 1-NN, basado en proximidad y similitud, Rpart basado en árboles y Glm, basado en regresión.
+
+\subsection{Ripper}
+El algoritmo RIPPER \cite{ripper} es una extensión del algoritmo IREP (Incremental Reduced Error Pruning), que construye un set de reglas donde todos los ejemplos positivos son cubiertos, por lo que es bastante útil en problemas con muchos ejemplos y ruidosos. Se basa en la construcción de dos sets de reglas durante el proceso de aprendizaje, el set de crecimiento y el de podado, generando reglas con el primero. 
+
+\subsection{Rpart}
+
+El algoritmo Rpart es un método basado en árboles \cite{part} y que puede ser usado tanto para problemas de regresión como de clasificación. Como en todos los métodos basados en árboles, se generan particiones en los datos en función de las variables que se usan para clasificar. La diferencia de este método radica en que es recursivo y cada una de las particiones puede volver a tenerse en cuenta como parte de otra partición hasta que se alcancen los criterios de parada. 
+
+\subsection{1NN}
+
+El algoritmo KNN \cite{knn} está englobado dentro de los algoritmos de \textit{Lazy Learning} y se basa en la similitud entre instancias. Hace uso de diversas medidas de distancia, como por ejemplo la euclídea, para determinar el número de ejemplos de cada clase que se encuentran a una distancia determinada del ejemplo a clasificar. Cada uno de los ejemplos de una determinada clase, corresponden con un "voto" para esa clase, finalmente la clase asignada será la que más votos tenga. 
+
+\subsection{Glm}
+
+El algoritmo GLM \cite{glm} es una generalización del algoritmo de regresión lineal que permite ser aplicado en problemas con variables que no siguen distribuciones normales. Puede usarse tanto para clasificación como para regresión y solo acepta dos clases de salida por lo que los problemas deben descomponerse en binarios para poder aplicar GLM sobre ellos en el caso de ser utilizado para clasificación. El algoritmo, propone una combinación de técnicas típicas de regresión lineal, regresión logística y regresión de poisson. 
+
+\section{Metodología de trabajo}
+
+Cualquier trabajo en equipo debe conllevar una buena planificación para conseguir buenos resultados en las etapas finales de cualquier proceso. Si además el ámbito de aplicación es la informática una correcta planificación es de vital importancia para llevar el proyecto a buen fin. En esta sección veremos por tanto algunos puntos claves en la coordinación y planificación del equipo de trabajo. 
+
+\subsection{Planificación temporal}
+El proyecto ha sido planificado temporalmente acorde a los siguientes puntos, tareas u objetivos:
+
+\begin{itemize}
+
+\item \textbf{Pruebas con modelos individuales}: En los primeros días, se dividieron los algoritmos de manera que cada miembro pudiera explotar los puntos fuertes y débiles de su algoritmo para el problema de manera que en puntos siguientes se potenciara solo el mejor algoritmo de los 4 para el problema en cuestión.  
+\item \textbf{Pruebas con todos los modelos}: Una vez estudiado el algoritmo asignado para cada miembro del equipo, se llevó a cabo una bateria de pruebas en las que con base en los resultados individuales obtenidos se probaron los de los demás.
+\item \textbf{Optimización}: Una vez encontramos un modelo de pre-procesado y algoritmo que se comportaba bien, se explotó el mismo con diversas combinaciones y pruebas.
+\item \textbf{Reuniones de grupo}: Reuniones de puesta en común de resultados y debate de técnicas y vías de estudio. 
+\item \textbf{Redacción}: Tras la finalización de la competición se abre un período de redacción del presente documento. 
+
+\end{itemize}
+
+En la figura \ref{planificacion}, puede verse un croquis sobre el calendario de los meses de enero-marzo, en el que se detallan las distintas tareas que se han detallado en puntos anteriores.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=10cm]{./Capitulo2/imagenes/plani.png}
+\caption{Croquis de la planificación seguida.}
+\label{planificacion}
+\end{figure} 
+
+\subsection{Desarrollo}
+
+Para el desarrollo del código se ha usado un repositorio privado para el control de versiones en GitHub, con ramas para cada uno de los miembros del equipo que eran fusionadas al realizar algún avance por parte de cada uno de los implicados.
+
+Dado que el proceso de pre-procesado de datos es incremental y secuencial, se ha llevado a cabo un desarrollo basado en \textbf{soluciones intermedias}. Con este método, se guardan soluciones intermedias que son etiquetadas con el pre-procesado aplicado de manera que estas pueden ser usadas por otro miembro del equipo sin necesidad de tener que aplicar técnicas que otro miembro ya uso. Este método ha permitido ahorrar en tiempos de ejecución así como tener constancia de que técnicas estaban dando mejor resultados que otras para su posterior refinamiento. 
+
+\clearpage
+%---------------------------------------------------

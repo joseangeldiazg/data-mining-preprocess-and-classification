@@ -1,0 +1,32 @@
+%---------------------------------------------------
+% Nombre: config.tex  
+% 
+% Configuraciones especiales de los paquetes
+%---------------------------------------------------
+%---------------------------------------------------
+% Configuración del paquete fancyhdr
+%
+% Puede consultarse una guia en: http://en.wikibooks.org/wiki/LaTeX/Page_Layout
+%---------------------------------------------------
+\pagestyle{fancyplain} %Fancy headers con separación de comportamiento entre titulos y páginas normales 
+
+%Modificadores de \leftmark y \rightmark para evtar mayusculas y numeración en cabeceras
+\renewcommand{\chaptermark}[1]{\markboth{#1}{}}								%imprimir solo nombre de capitulo
+\renewcommand{\sectionmark}[1]{\markright{#1}{}}							%imprimir solo nombre de capitulo
+
+%Texto de cabeceras y pies
+\lhead{\fancyplain{}{\textsl{\leftmark}}}											%Texto cabecera izquierda
+\chead{}																											%Texto cabecera centro
+\rhead{\fancyplain{}{\textsc{\rightmark}}}										%Texto cabecera derecha
+\lfoot{Memoria Competición en Kaggle}	%Texto pie izquierda
+\cfoot{}																											%Texto pie centro
+\rfoot{\thepage}																							%Texto pie derecha
+%---------------------------------------------------
+
+%---------------------------------------------------
+% Configuración del paquete lettrine
+%
+% Puede consultarse una guia en: http://ctan.binkerton.com/macros/latex/contrib/lettrine/doc/lettrine.pdf
+%---------------------------------------------------
+\renewcommand{\DefaultLoversize}{-0.3}
+%---------------------------------------------------

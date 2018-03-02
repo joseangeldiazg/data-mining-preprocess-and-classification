@@ -1,0 +1,50 @@
+%---------------------------------------------------
+% Nombre: Principal.tex  
+% 
+% Fichero principal del documento. Éste es el punto
+% de inicio para la compilación del documento
+% 
+% Nota: Debe ser compilado 3 veces seguidas para generar
+%				el documento correctamente.
+%
+%---------------------------------------------------
+
+\documentclass[12pt,oneside]{book}
+
+\input ./Configuracion/paquetes.tex   			% inclusión de paquetes empleados
+\input ./Configuracion/config.tex           % configuración de paquetes
+\input ./Configuracion/formato.tex	   % instrucciones de formato generales
+\input ./Configuracion/separaciones.tex   	% separación de palabras
+\input ./Configuracion/castellano.tex    		% renombrado de titulos automáticos a castellano
+
+\begin{document}
+
+\pagenumbering{alph}											% numeración especial para evitar duplicados
+\thispagestyle{empty} 											% la siguiente página no tiene formato
+\input ./Prefacio/portada.tex										% inclusión de archivo de la portada
+
+\frontmatter													% parte inicial del documento 
+
+\pagenumbering{roman} 											% numeracion romana para las primeras paginas
+\thispagestyle{empty} 											% primera pagina sin numero											
+\pagenumbering{arabic}											% numeracion arabiga para el resto del documento
+
+\mainmatter																	% parte central del documento 
+
+\tableofcontents														% inclusión de tabla de contenidos (índice)
+\listoffigures
+\listoftables
+
+\input ./Capitulo1/capitulo1.tex     				% inclusión de archivo del capitulo 1
+\input ./Capitulo2/capitulo2.tex     
+\input ./Capitulo3/capitulo3.tex   
+\input ./Capitulo4/capitulo4.tex      
+
+\newpage
+\mbox{}
+\thispagestyle{empty}
+
+\input ./Bibliografia/bibliografia.tex			% inclusión de bibliografía
+
+\end{document}       
+%---------------------------------------------------
