@@ -14,8 +14,14 @@
 \BOOKMARK [0][-]{chapter.3}{Proceso exploratorio y pre-procesado}{}% 14
 \BOOKMARK [1][-]{section.3.1}{Proceso exploratorio}{chapter.3}% 15
 \BOOKMARK [1][-]{section.3.2}{Pre-procesado}{chapter.3}% 16
-\BOOKMARK [1][-]{section.3.3}{T\351cnicas de clasificaci\363n}{chapter.3}% 17
-\BOOKMARK [1][-]{section.3.4}{Soluci\363n aportada}{chapter.3}% 18
-\BOOKMARK [0][-]{chapter.4}{Conclusi\363n}{}% 19
-\BOOKMARK [1][-]{section.4.1}{Resumen}{chapter.4}% 20
-\BOOKMARK [1][-]{section.4.2}{Conclusiones finales}{chapter.4}% 21
+\BOOKMARK [2][-]{subsection.3.2.1}{Valores num\351ricos}{section.3.2}% 17
+\BOOKMARK [2][-]{subsection.3.2.2}{Imputaci\363n de valores perdidos}{section.3.2}% 18
+\BOOKMARK [2][-]{subsection.3.2.3}{Ruido}{section.3.2}% 19
+\BOOKMARK [2][-]{subsection.3.2.4}{Selecci\363n de caracter\355sticas}{section.3.2}% 20
+\BOOKMARK [2][-]{subsection.3.2.5}{Oversampling y Undersampling}{section.3.2}% 21
+\BOOKMARK [1][-]{section.3.3}{T\351cnicas de clasificaci\363n}{chapter.3}% 22
+\BOOKMARK [1][-]{section.3.4}{Soluci\363n aportada}{chapter.3}% 23
+\BOOKMARK [2][-]{subsection.3.4.1}{Propuesta descartada}{section.3.4}% 24
+\BOOKMARK [0][-]{chapter.4}{Conclusi\363n}{}% 25
+\BOOKMARK [1][-]{section.4.1}{Resumen}{chapter.4}% 26
+\BOOKMARK [1][-]{section.4.2}{Conclusiones finales}{chapter.4}% 27

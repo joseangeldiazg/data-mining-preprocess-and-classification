@@ -15,8 +15,19 @@
 \contentsline {chapter}{\numberline {3}Proceso exploratorio y pre-procesado}{12}{chapter.3}
 \contentsline {section}{\numberline {3.1}Proceso exploratorio}{12}{section.3.1}
 \contentsline {section}{\numberline {3.2}Pre-procesado}{17}{section.3.2}
-\contentsline {section}{\numberline {3.3}T\'ecnicas de clasificaci\'on}{17}{section.3.3}
-\contentsline {section}{\numberline {3.4}Soluci\'on aportada}{17}{section.3.4}
-\contentsline {chapter}{\numberline {4}Conclusi\'on}{18}{chapter.4}
-\contentsline {section}{\numberline {4.1}Resumen}{18}{section.4.1}
-\contentsline {section}{\numberline {4.2}Conclusiones finales}{18}{section.4.2}
+\contentsline {subsection}{\numberline {3.2.1}Valores num\'ericos}{17}{subsection.3.2.1}
+\contentsline {subsection}{\numberline {3.2.2}Imputaci\'on de valores perdidos}{18}{subsection.3.2.2}
+\contentsline {subsubsection}{Mice}{18}{section*.4}
+\contentsline {subsubsection}{Media y Moda}{18}{section*.5}
+\contentsline {subsubsection}{KNN}{19}{section*.6}
+\contentsline {subsection}{\numberline {3.2.3}Ruido}{19}{subsection.3.2.3}
+\contentsline {subsection}{\numberline {3.2.4}Selecci\'on de caracter\IeC {\'\i }sticas}{20}{subsection.3.2.4}
+\contentsline {subsection}{\numberline {3.2.5}Oversampling y Undersampling}{21}{subsection.3.2.5}
+\contentsline {subsubsection}{Oversampling}{21}{section*.7}
+\contentsline {subsubsection}{Undersampling}{22}{section*.8}
+\contentsline {section}{\numberline {3.3}T\'ecnicas de clasificaci\'on}{23}{section.3.3}
+\contentsline {section}{\numberline {3.4}Soluci\'on aportada}{23}{section.3.4}
+\contentsline {subsection}{\numberline {3.4.1}Propuesta descartada}{23}{subsection.3.4.1}
+\contentsline {chapter}{\numberline {4}Conclusi\'on}{24}{chapter.4}
+\contentsline {section}{\numberline {4.1}Resumen}{24}{section.4.1}
+\contentsline {section}{\numberline {4.2}Conclusiones finales}{24}{section.4.2}

@@ -81,9 +81,99 @@ Tras el análisis de los boxplot podemos concluir que hay un gran número de outli
 
 \section{Pre-procesado}
 
+En esta sección se verán las distintas técnicas de pre-procesado aplicadas a nuestra solución.  
+
+\subsection{Valores numéricos}:
+
+Para poder trabajar mejor con el dataset, se propuso el paso a numérico de todos los elementos del mismo, para ello, las variables binarias pasaron a 0 o 1, y los strings a tener un valor numérico identificativo suprimiendo las 3 primeras letras de su cadena ya que eran del tipo \textit{way1, way2 - way14}. La variable x0 que toma valores XS, S, M, L o XL se interpretó como tallas y se cambió por un numérico que va de menos a mas en función del tamaño de las mismas. 
+
+\subsection{Imputación de valores perdidos}:
+Uno de los primeros problemas a los que nos hemos enfrentado para comenzar el preprocesamiento de los datos ha sido la existencia de valores perdidos (NAs) en el dataset. Estos valores perdidos se encuentran en variables tanto de tipo numérico como categórico, por lo que necesitamos trabajos con dos formas distintas de imputación de datos, una para las numéricas y otra para las categóricas.
+
+\subsubsection{Mice}
+Para seleccionar el método más adecuado de imputación, hemos tenido en cuenta los paquetes existentes que permiten realizar dicha tarea como ?MICE?, el cual, nos permite imputar distintos tipos de variable, mediante distintos métodos como PMM (Predictive Mean Matching), ejemplos aleatorios, medias, regresiones lineales bayesianas, etc.Sin embargo, a la hora de aplicar este paquete hemos observado unos tiempos de ejecución muy altos, junto a unos resultados muy pobres, lo cual quedó patentado a la hora de utilizar otros métodos que describiremos a continuación.
+
+\subsubsection{Media y Moda}
+
+Ante esta perspectiva, se ha llevado a cabo una declaración propia de funciones que realicen una imputación de los datos numéricos mediante la media, y de los datos categóricos mediante la moda, cuyo funcionamiento queda reflejado en el script en formato .R entregado.
+Una vez confeccionadas las funciones para realizar la imputación de valores perdidos, ha sido necesario comprender cómo funcionan los distintos algoritmos que debemos aplicar (1NN, GLM, RIPPER y RPART) a los datos preprocesados, para confeccionar los conjuntos adecuados para cada uno.
+El algoritmo KNN, en nuestro caso 1NN, requiere que los datos no sean categóricos por lo que, no se ha realizado imputación de valores categóricos mediante la moda, sino que, en un primer momento, se ha realizado una imputación de los valores numéricos por media y no se han tenido en cuenta las variables categóricas.
+Los resultados, sin embargo, a pesar de representar una mejora frente a MICE no eran buenos en términos generales.
+
+\subsubsection{KNN}
+
+Las imputaciones pobres resultantes de los métodos anteriores nos han llevado a realizar un método alternativo que ha resultado más eficaz para imputar valores, mediante el uso de KNN. Mediante el cálculo de los vecinos más cercanos, en este caso instancias, hemos realizado una función que imputa tanto el valor de las variables categóricas como numéricas.
+El resultado ha sido un aumento en la calidad de la predicción en todos los algoritmos, lo que nos ha llevado a decantarnos por este método, el cual, en líneas generales, ha permitido una mejor actuación del resto de técnicas implementadas.
+
+\subsection{Ruido}
+
+Hemos tenido en cuenta la posible existencia de valores que podemos considerar ?ruidosos?, a simple vista outliers por casos atípicos, o incluso inconsistentes y que pueden estar relacionados con errores en los instrumentos de medición, en las entradas de datos, etc... Como medida de choque contra el ruido existente en los datos, hemos recurrido a la función IPF (Iterative Partitioning Filter) que se encuentra disponible para su utilización en R mediante el paquete NoiseFiltersR.
+El funcionamiento de IPF consiste en ir eliminando las instancias que considera ?ruidosas? en múltiples iteraciones, hasta que el porcentaje de las instancias que considere ruidosa en cada una de las interacciones sea menor que un porcentaje p del tamaño original de los datos. Adicionalmente, hemos añadido el argumento s que establece de forma fija el número de interacciones que se van a realizar sobre los datos.
+El resultado de la utilización de IPF no ha sido homogéneo, ya que ha habido una gran variabilidad en los distintos casos en los que se ha empleado. Uno de los factores que influye en los resultados de IPF es el método de selección de características empleado anteriormente, ya que la aplicación de Boruta provoca un sobre aprendizaje muy grande sobre los datos tanto en KNN como GLM.El caso contrario sucede al realizar una selección de variables con Random forest previamente, siempre y cuando se aplique SMOTE, debido a que IPF desbalancea mucho las clases en los datos, dejando muy mermada la clase 0. Con esta combinación de IPF + SMOTE el modelo mejora tanto en KNN como en GLM. 
+
+Como estrategia final, hemos replicado los diferentes casos, aplicando o no IPF y observando cuando producía sobre-aprendizaje y cuando eliminaba instancias que realmente aportaban ruido al conjunto de datos, para lo cual ha sido necesario aplicar distintos métodos que aseguren un balanceo de clases y un mínimo de ejemplos de cada clase.
+
+\subsection{Selección de características}
+
+Este apartado va a tratar sobre los procesos y técnicas que hemos seguido para realizar selección de características. La selección de características o atributos consiste en seleccionar un subconjunto relevante de características para poder construir un modelo. 
+
+ Los motivos por los que se realizan este tipo de técnicas son:
+
+\begin{itemize}
+\item Simplificación del modelo.
+\item Tratar de eliminar la maldición de la dimensionalidad.
+\item Intento de minimizar el overfitting.
+\item Reducción de tiempo de aprendizaje.
+\end{itemize}
+
+Cuando se aplican técnicas de este tipo hay que tener en cuenta la interpretabilidad del modelo. Se debe conseguir un equilibrio a la hora de que el modelo sea interpretable y se reduzcan las características. En el caso particular de nuestro problema no tenemos ese requerimiento puesto que no tenemos información sobre el significado de las variables. La idea de aplicar estas estrategias es que el conjunto de datos puede contener variables que sean redundantes o poco relevantes para explicar el problema. Los conceptos de redundancia y relevancia son distintos, puesto que, una característica relevante puede ser redundante en la presencia de otra relevante. Para el desarrollo de la práctica planteamos 2 estrategias para la selección de características:
+
+
+\begin{enumerate}
+\item{Métodos Wrapper}: La idea de los algoritmos wrapper para la selección de características es generar todos los subconjuntos posibles y determinar la relevancia de ellos a través del uso de filtros.  En nuestro caso hemos seleccionado el algoritmo Boruta del paquete Boruta para realizar el estudio pertinente.
+\item{Métodos de filtro}: La idea de este tipo de métodos es fijar la importancia de cada una de las variables y posteriormente ir eliminando aquellas menos relevantes.Para el desarrollo de este tipo de filtro hemos optado por realizar una clasificación por randomforest y posteriormente hemos visto la importancia de cada uno de atributos a la hora de realizar la clasificación. Estos se ordenaron y se fueron viendo cuál era el resultado óptimo. Finalmente se decidió eliminar las 25 menos relevantes. Con la eliminación de estas se obtuvieron los resultados más relevantes.
+\end{enumerate}
+
+
+\subsection{Oversampling y Undersampling}
+
+Al tratarse de una conjunto de datos desbalanceado, como se observó en el análisis exploratorio que se hizo sobre los datos, se vió fundamental la introducción de técnicas de oversampling y undersampling para ajustar la distribución de los datos y poder mejorar en los resultados del estudio. En este sentido vamos a aplicar técnicas de \textbf{oversampling y undersampling} para buscar el equilibrio entre clases que nos permitan desarrollar un modelo que se ajuste a la realidad. 
+
+
+\subsubsection{Oversampling}
+
+Como indica su nombre las técnicas de oversampling consiste en generar nuevas muestras de las clases minoritarias. Para llevar a cabo este método valoramos distintos algoritmos que pasaremos a explicar.
+\begin{itemize}
+\item \textbf{Synthetic Minority Over-sampling Technique (SMOTE)}: Esta técnica consiste en potenciar la clase minoritaria a través de la generación de instancias de esa clase. Para la generación de estas obtenemos una instancia de la clase minoritaria y buscamos los k-vecinos más próximos y se generan instancias viendo la distancia del elemento seleccionado y sus vecinos.Para la aplicación de esta técnica usamos la librería unbalanced y dentro de las funciones el que hemos utilizado ha sido ubSMOTE.
+\item \textbf{Random Oversampling (ROS)}: Esta técnica consiste en generar muestras de la clase minoritaria de forma aleatoria. Para su uso utilizamos la librería ROSE y la función ovun.sample.
+\item \textbf{ROS  One Versus All (OVA}: Una variante del anterior, para hacer que las nuevas instancias estén generadas atendiendo a los datos se va a aplicar ROS sobre la clase minoritaria pero atendiendo a su diferencia con respecto al resto de clases de forma individual.Con ello pretendemos que la clase 0 no crezca tanto y haya que aplicar luego otras técnicas.
+\item \textbf{ROS clase0}: De los casos anteriores hemos visto que el mejor comportamiento lo tiene cuando usamos técnicas de ROS. Por ello decidimos hacer un estudio de la medida concreta en que podíamos aumentar la clase minoritaria de forma aleatoria para obtener mejores resultados. Se planteó la posibilidad de duplicar las instancias minoritarias obteniéndose, de esta forma una mejora significativa en los resultados obtenidos
+\item \textbf{ROS clase0 y clase1}: Tras el estudio anterior se detectó que una vez aplicado el oversampling sobre la clase minoritaria esta pasaba a ser la clase 1. Por este motivo parecía interesante pensar si podíamos aplicar el mismo comportamiento sobre la clase 1 para terminar de equilibrar el problema. Por este motivo hicimos ROSen un segundo nivel, en este caso sobre la clase 1. La forma en la que lo llevamos a cabo fue elegir de forma aleatoria un 25\% de los elementos de la clase 1 y añadirlos al conjunto de los datos
+\end{itemize}
+
+\subsubsection{Undersampling}
+
+Los métodos de undersampling a diferencia del anterior se centran en las clases mayoritarias para eliminar. Para nuestro conjunto de datos planteamos que las técnicas más interesantes podrían ser undersampling focalizado (FUS) o Tomeklinks.
+
+\begin{itemize}
+\item \textbf{FUS Extended Nearest Neighbor ENN}: Este tipo de técnicas se centran en eliminar instancias de la clase mayoritaria situadas entre fronteras de dos clases. Para su aplicación seleccionamos el algoritmo ubENN de la clase unbalanced. El problema de este algoritmo en nuestro problema será, que al no existir fronteras bien definidas, no podrá hacer una selección apropiada
+
+\item \textbf{Tomeklinks}: En alguna bibliografía se inlucye Tomeklinks como un algoritmo de tipo FUS.  Podemos usar este tipo de algoritmos para eliminar ejemplo de la clase mayoritarias de las fronteras así como para eliminación de ruido. 
+\end{itemize}
+
 \section{Técnicas de clasificación}
 
+
+
 \section{Solución aportada}
+
+Tras todas las pruebas realizadas la que mejor resultado nos ha aportado ha pasado por eliminar una de las dos variables altamente correlacionadas, habiendo imputado anteriormente los valores perdidos entre ellas, imputar todos los valores perdidos de todas las demás variables mediante K-NN (tanto para train como para test), transformar las variables categóricas a numéricas, duplicar todas las instancias con clase 0 (debido al desbalanceo) y, aleatoriamente, una cuarta parte de las de clase 1 y aplicar 1-NN escogiendo desechando las 25 peores variables marcadas mediante Random Forest.
+
+\subsection{Propuesta descartada}
+
+Propuesta con mejor resultado descartada
+La solución que mejor resultado nos aportó en Kaggle, pero que finalmente decidimos descartar debido a que nos pareció que incumplía en cierto modo las normas de la competición, así como que produciría finalmente un sobreajuste con el 40\% del test final, pasaba por retroalimentar el modelo en base a las predicciones obtenidas, inspirándonos en la filosofía de la de redes neuronales. De este modo, predecimos test con nuestro mejor modelo, asignamos estos valores a test, a este conjunto le aplicamos IPF y lo unimos al conjunto de train empleado para el anterior modelo y predecimos. Repitiendo este modelo además es posible ir mejorando el resultado, con el consecuente sobreaprendizaje que ello conlleva.
+
 
 \clearpage
 %---------------------------------------------------
